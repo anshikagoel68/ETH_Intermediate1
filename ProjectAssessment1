@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract ErrorHandlingMethods {
+    address private owner = msg.sender;
+    uint private balance;
+
+    function deposit(uint amount) public {
+        require(msg.sender == owner, "Only the owner can deposit funds");
+        balance += amount;
+    }
+    function withdraw(uint amount) public {
+        require(msg.sender == owner, "Only the owner can withdraw funds");
+        assert(balance >= amount);
+        balance -= amount;
+    }
+    function transfer(address recipient, uint amount) public {
+        if (recipient == address(0)) {
+            revert("Cannot transfer to the zero address");
+        }
+        require(msg.sender == owner, "Only the owner can transfer funds");
+        require(balance >= amount, "Insufficient balance");
+        balance -= amount;
+    }
+    function getBalance() public view returns (uint) {
+        return balance;
+    }
+}
