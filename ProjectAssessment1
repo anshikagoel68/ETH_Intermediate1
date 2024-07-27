@@ -1,28 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract ErrorHandlingMethods {
-    address private owner = msg.sender;
-    uint private balance;
-
-    function deposit(uint amount) public {
-        require(msg.sender == owner, "Only the owner can deposit funds");
-        balance += amount;
+contract SimpleStorage {
+    uint256 private storedNumber;
+    function setNumber(uint256 newNumber) public {
+        require(newNumber > 0, "Number must be greater than 0");
+        storedNumber = newNumber;
     }
-    function withdraw(uint amount) public {
-        require(msg.sender == owner, "Only the owner can withdraw funds");
-        assert(balance >= amount);
-        balance -= amount;
+    function getNumber() public view returns (uint256) {
+        return storedNumber;
     }
-    function transfer(address recipient, uint amount) public {
-        if (recipient == address(0)) {
-            revert("Cannot transfer to the zero address");
+    function doubleStoredNumber() public {
+        uint256 doubled = storedNumber * 2;
+        assert(doubled / 2 == storedNumber);
+        storedNumber = doubled;
+    }
+    function checkNumber(uint256 number) public pure {
+        if (number == 0) {
+            revert("Number must not be zero");
         }
-        require(msg.sender == owner, "Only the owner can transfer funds");
-        require(balance >= amount, "Insufficient balance");
-        balance -= amount;
-    }
-    function getBalance() public view returns (uint) {
-        return balance;
     }
 }
