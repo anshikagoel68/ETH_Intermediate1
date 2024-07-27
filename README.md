@@ -47,6 +47,7 @@ The revert statement is used to manually revert the transaction with a specific 
 _Example in checkNumber function:_ if (number == 0) {
                                        revert("Number must not be zero");
                                     }
+
 **Deployment and Usage**
 
 1. Compile: Use a Solidity compiler compatible with version ^0.8.0.
