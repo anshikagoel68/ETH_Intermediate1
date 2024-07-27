@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract SimpleStorage {
+contract ErrorHandlingMethods {
     uint256 private storedNumber;
     function setNumber(uint256 newNumber) public {
         require(newNumber > 0, "Number must be greater than 0");
