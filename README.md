@@ -1,63 +1,63 @@
 **Title:** ErrorHandlingMethods Contract
-This contract provides an explanation of the ErrorHandlingMethods contract written in Solidity (version ^0.8.0).
 
 **License**
 This contract is licensed under the MIT License.
 
 **Contract Overview**
-The ErrorHandlingMethods contract manages a simple balance owned by a designated owner. It provides functions for depositing, withdrawing, transferring funds, and querying the contract's balance. 
-The contract utilizes various error handling techniques to ensure secure and reliable operation.
-The techniques/Methods are- require(), assert(), revert().
-
-**Usage of Methods**
-1). require():The require statement is used to enforce conditions that must be true for the function to execute successfully.
-               If the condition evaluates to false, the transaction is reverted, and any changes made to the state are rolled back.
-               It has two parameters, separated by comma.
-               (a) condition to validate
-               (b) String message to display onto the console window(enclosed in double quotes).
-
-2). assert():The assert statement is used to check for conditions that should never be false.
-             Unlike require, which checks for conditions that are expected to be recoverable and meaningful to the caller, assert is typically used to check for internal errors and to ensure that certain invariants are never violated.
-             If an assert condition fails, it indicates a bug in the contract logic rather than an expected failure condition.
-             It ensures that certain critical conditions always hold true.
-             Verifying that internal state assumptions are never violated.
-   
-3). revert(): The revert statement is used to revert the current call. It can be used with a custom error message to provide information about why the revert occurred.
+The 'ErrorHandlingMethods' contract is a straightforward Ethereum smart contract that demonstrates fundamental Solidity features, including state management and error handling mechanisms. It allows users to store and retrieve a single 'uint256' value, providing a simple interface for basic data manipulation. Additionally, the contract includes functionality to modify the stored value by doubling it, showcasing how to update and validate state changes. The contract further illustrates key error handling concepts by using 'require', 'assert', and 'revert' statements for input validation and to ensure the contract operates correctly under various conditions. This design serves as an educational example for understanding core aspects of Solidity programming.
 
 **Functions used in the contract**
 
-1. deposit(uint amount)
-   - Description: Allows the contract owner to deposit funds into the contract.
-   - Requirements: Only the contract owner can deposit funds.
-   - Effects: Increases the contract's balance by the specified amount.
-   - Usage:Call with the amount of funds to deposit.
+1. setNumber(uint256 newNumber)
+ - Description: a. Sets a new number in the contract. It used newNumber as a parameterto the store the 
+                   number.
+                b. Uses require to validate that newNumber is greater than 0. If the condition is not met, 
+                   the transaction will revert with an error message: "Number must be greater than 0".
 
-2. withdraw(uint amount)
-   - Description: Allows the contract owner to withdraw funds from the contract.
-   - Requirements: Only the contract owner can withdraw funds. The contract must have sufficient balance to cover the withdrawal amount.
-   - Effects:Decreases the contract's balance by the specified amount.
-   - Usage: Call with the amount of funds to withdraw.
+2. getNumber(uint256)
+Description: Retrieves the currently stored number.
 
-3. transfer(address recipient, uint amount)
-   - Description: Allows the contract owner to transfer funds to a specified recipient address.
-   - Requirements: Only the contract owner can initiate transfers. The recipient address must not be the zero address. The contract must have sufficient balance to cover the transfer amount.
-   - Effects: Decreases the contract's balance by the specified amount upon successful transfer.
-   - Usage: Call with recipient's address and the amount of funds to transfer.
+3. doubleStoredNumber()
+- Description: Doubles the stored number and updates the contract state.
+- Functionality: a. Computes the doubled value of the stored number.
+               b. Uses assert to ensure the correctness of the doubling operation. Specifically, it checks 
+                  that doubled / 2 equals the original storedNumber. If this condition fails, the 
+                  transaction will revert with a default assertion error.
+              c. Updates storedNumber with the doubled value.
 
-4. getBalance()
-   - Description: Retrieves the current balance of the contract.
-   - Effects:Does not modify the contract state.
-   - Returns:The current balance of the contract.
-
-- **Require Statements:**
-  - Used to enforce conditions such as owner-only access and sufficient balance checks before executing functions (deposit, withdraw, transfer).
+4. checkNumber(uint256 number)
+- Description: Checks if the provided number is non-zero. It used the number as parameter to check the 
+                number.
+- Functionality: a. Uses revert to throw an error if number is zero. The error message will be: "Number 
+                    must not be zero".
+               b. If number is non-zero, the function completes successfully.
   
-- **Assert Statement:**
-  - Used internally in the `withdraw` function to ensure that the contract's balance is sufficient before deducting the withdrawal amount.
+ **Error Handling Methods**
+  
+1) require statement
+The require statement is used to validate input parameters and conditions before executing further logic. If the condition specified in require is not met, the transaction is reverted, and an error message is returned to the caller. It helps prevent the contract from entering an invalid state.
+_Example in setNumber function:_ require(newNumber > 0, "Number must be greater than 0");
 
-- **Revert Statement:**
-  - Used in the `transfer` function to revert transactions that attempt to transfer funds to the zero address, ensuring that funds are not lost.
+2) assert statement
+The assert statement is used to check for conditions that should never be false. It is typically used to verify invariants and internal logic assumptions. If the condition specified in assert fails, the transaction is reverted, and the contract state is reverted to its previous state.
+_Example in doubleStoredNumber function:_ assert(doubled / 2 == storedNumber);
 
+3) revert statement
+The revert statement is used to manually revert the transaction with a specific error message. It is useful for handling cases where a specific condition is not met, and it allows custom error messages to be returned.
+_Example in checkNumber function:_ if (number == 0) {
+                                       revert("Number must not be zero");
+                                    }
+**Deployment and Usage**
+
+1. Compile: Use a Solidity compiler compatible with version ^0.8.0.
+2. Deploy: Deploy the SimpleStorage contract to an Ethereum blockchain or a test network.
+3. Interact: Use a web3 interface or Ethereum development environment to call the contract's functions.
+
+
+   
+
+   
+- 
 
 
 
